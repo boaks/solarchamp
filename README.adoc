@@ -1,0 +1,159 @@
+// Solarchamp, Version 1.0, Oktober 2024
+
+:imagesdir: pictures
+
+= Solarchamp
+Achim Kraus <achim.kraus@cloudcoap.net>
+v0.1, 2024-10-13
+
+[cols="1*"]
+|===
+a|.Solarchamp 
+image::1_solarchamp.png[Solarchamp]
+|===
+
+Willkommen auf meiner Bastelanleitung für ein Modem mit Solarpanel zur Energieversorung.
+
+Ich bin einer der IoT-Enthusiasten, der gerne echte Dinge baut, die auch funktionieren. 2022 habe ich angefangen, einen link:https://github.com/boaks/zephyr-coaps-client[Modem-Client] zu implementieren, mit dem man zeigen kann was in link:https://cloudcoap.net[UDP] steckt. In Kombination mit link:https://github.com/eclipse-californium/californium/tree/main/demo-apps/cf-s3-proxy-server[Eclipse/Californium - CoAP-S3-Proxy] demonstriert dieses Beispiel, dass man auch von einem kleinen Solarpanel und einem der neuen Super-Kondensatoren zuverlässig jede Stunde Daten austauschen kann. Im Frühjahr wissen wir dann, ob dass auch im Winter funktioniert.  
+
+Das Demogerät bietet nicht viel Funktion, aktuell sendet es nur die Temperatur und die Signalstärken des Funknetzes. Es soll nur zeigen, dass man solche Geräte bauen kann.
+
+Die Ausführung ist ziemlich einfach, der Akku wird durch einen Super-Kondensator neuer Bauart (z.B. LIB1620Q4R0407, Litium HYBRID, 4V, 400F) ersetzt. Dazu muss man die Ladeschlußspannung des Ladebausteins entsprechend konfigurieren. Beim Nordic NPM1300 geht das mit wenig Aufwand. Das war es auch schon. Ansonsten benötigt man eine Applikation, die mit wenig Energie auskommt, da passt CoAP/DTLS 1.2 CID natürlich optimal.
+
+Für ein echtes Gerät sollte man beachten, dass die Temperatur nicht über 50°C steigt. Dazu muss man dann meiner Erfahrung nach das Solarpanel absetzen und das Gerät selber beschatten.
+
+Links zu den Open Source Projekten:
+
+link:https://github.com/boaks/zephyr-coaps-client[Modem-Client - https://github.com/boaks/zephyr-coaps-client]
+
+link:https://github.com/eclipse-californium/californium/tree/main/demo-apps/cf-s3-proxy-server[Eclipse/Californium - CoAP-S3-Proxy - https://github.com/eclipse-californium/californium/tree/main/demo-apps/cf-s3-proxy-server]
+
+== Vorab Betrachtung der Energiemengen
+
+Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.3V, daher halbiert sich die Kapazität auf die hälft, also 80mA. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen. Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenrgie auskommen sollte. Mal sehen, wie gut das zutrifft.  
+
+== Bauteile
+
+image::2_bauteile.png[Bauteile]
+
+Das Herzstück ist ein Modem-Modul, dass über einen Solarladechip verfügt, das link:https://conexiotech.com/conexio-stratus-pro-nrf9161/[Conexio Stratus Pro nRF9161]. Dazu kommt ein Super-Kondensator (4V, 400F), ein kleines Solarpanel (6V)und ein Gehäuse. Ich verbaue auch gerne einen LED Taster.
+
+Die Verkablung ist verhältnismässig einfach.
+
+|===
+|Beschreibung|Conexio Stratus Pro|Super Kondensator|Solarpanel|LED Taster|Farbe
+
+|GND
+|P2/4 GND
+|-
+|-
+|Sw 1
+|Schwarz
+
+|Solar V+
+|P2/20 +PV
+|
+|+
+|
+|Grün
+
+|Bat V+
+|P1/1 VBAT
+|+
+|
+|
+|Rot
+
+|VDD (3.3V)
+|P2/2 +3.3V
+|
+|
+|LED+
+|Braun
+
+|Call Button
+|P1/4 GPIO 0.0
+|
+|
+|Sw 2
+|Blau
+
+|LED
+|P1/5 GPIO 0.1
+|
+|
+|LED -
+|Gelb
+
+|===
+
+Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. Das Solarpanel wird ebenfalls mit `GND` und dem `+PV` verbunden. Wenn man auch den LED Taster möchte, dann wird der Taster zwischen `GND` und `GPIO 0.0` angeschloßen und die LED zwischn `+3.3V` und `GPIO 0.1`.
+
+== Die Platine
+
+[cols="2*"]
+|===
+a|image::3_platine_oben.png[Sendbox-Platine von oben] 
+a|image::4_platine_unten.png[Sendbox-Platine von unten]
+|===
+
+== Arbeitszeit
+
+Das hängt natürlich stark von der Bastel-Erfahrung ab. Ich denke, man sollte das in einem Nachmittag schaffe.
+ 
+== Bauteilliste
+
+[cols="3*"]
+|===
+|Bauteil|Bezugsquelle|Preis (Herbst 2024)
+
+|Conexio Stratus Pro nRF9161
+a|link:https://conexiotech.com/product/stratus-pro/[Conexio Stratus Pro nRF9161, conexiotech.com]
+|89 $ (zzgl. Versand)
+
+|LTE Antenne
+a|link:https://www.digikey.de/en/products/detail/unictron-technologies-corporation/H2B4MH1F2F0100/9921462[LTE Antenne, digikey.de]
+|4,80 Euro
+
+|Super-Kondensator, LIB1620Q4R0407, 4V, 400F
+a|link:https://www.digikey.de/de/products/detail/cda-zhifengwei-technology/LIB1620Q4R0407/22461729[LIB1620Q4R0407, digikey.de]
+|10,17 Euro
+
+|Solarpanel, 6V 0.5W
+a|link:https://www.digikey.de/de/products/detail/seeed-technology-co-ltd/313070004/5488049[Solarpanel, digikey.de]
+|6,60 Euro
+
+|LED Taster, Grün
+a|link:https://www.digikey.de/de/products/detail/olimex-ltd/BUTTON-12MM-GREEN/21662029[BUTTON-12MM-GREEN, digikey.de]
+|1,80 Euro
+
+|Gehäuse, 105x70x40mm, transparenter Deckel
+a|link:https://www.reichelt.de/industriegehaeuse-105-x-70-x-40mm-ip66-ip68-lichtgrau-6u07110704139-p340521.html[Gehäuse, reichelt.de]
+|9,30 Euro
+
+|Pfostenstecker, 6 pol.
+a|link:https://www.reichelt.de/wannenstecker-6-polig-gerade-wsl-6g-p85732.html[Pfostenstecker, reichelt.de]
+|0,18 Euro
+
+|Pfostenbuchse, 6 pol.
+a|link:https://www.reichelt.de/pfostenbuchse-6-polig-mit-zugentlastung-pfl-6-p53153.html[Pfostenbuchse, reichelt.de]
+|0,26 Euro
+
+|Steckverbinder JST 2mm, 2 pol.
+a|link:https://www.reichelt.de/jst-stiftleiste-gerade-1x2-polig-ph-jst-ph2p-st-p185049.html[Steckverbinder, reichelt.de]
+|0,14 Euro
+
+|Laborkarte 3-Loch-Lötinseln
+a|link:https://www.reichelt.de/laborkarte-cem3-rm-2-54-mm-3-loch-loetinseln-re-310-s1-p105479.html[Laborkarte, reichelt.de]
+|6,50 Euro
+
+3+a|
+
+'''
+
+|Gesamtsumme ca.
+|
+a|*150 Euro*
+
+|===
+
