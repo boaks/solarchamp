@@ -30,11 +30,15 @@ link:https://github.com/eclipse-californium/californium/tree/main/demo-apps/cf-s
 
 == Vorab Betrachtung der Energiemengen
 
-Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.3V, daher halbiert sich die Kapazität auf die hälft, also 80mA. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen. Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenrgie auskommen sollte. Mal sehen, wie gut das zutrifft.  
+image::2_solarchamp-chart.png[Bauteile]
+
+Ein Testlauf mit einem Sendeinterval von 5 Minuten lief 8 Tage und 14 h. 
+
+Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.4V, daher halbiert sich die Kapazität auf ca. 80mAh. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen. Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenergie auskommen sollte. Mal sehen, wie gut das zutrifft.  
 
 == Bauteile
 
-image::2_bauteile.png[Bauteile]
+image::3_bauteile.png[Bauteile]
 
 Das Herzstück ist ein Modem-Modul, dass über einen Solarladechip verfügt, das link:https://conexiotech.com/conexio-stratus-pro-nrf9161/[Conexio Stratus Pro nRF9161]. Dazu kommt ein Super-Kondensator (4V, 400F), ein kleines Solarpanel (6V)und ein Gehäuse. Ich verbaue auch gerne einen LED Taster.
 
@@ -93,8 +97,8 @@ Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. 
 
 [cols="2*"]
 |===
-a|image::3_platine_oben.png[Sendbox-Platine von oben] 
-a|image::4_platine_unten.png[Sendbox-Platine von unten]
+a|image::4_platine_oben.png[Sendbox-Platine von oben] 
+a|image::5_platine_unten.png[Sendbox-Platine von unten]
 |===
 
 == Arbeitszeit
