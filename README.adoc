@@ -61,12 +61,19 @@ Die Verkablung ist verhältnismässig einfach.
 |
 |Grün
 
+|VBUS V+
+|P1/3 VUSB
+|
+|+ (Alternativ)
+|
+|Rot
+
 |Bat V+
 |P1/1 VBAT
 |+
 |
 |
-|Rot
+|Violett
 
 |VDD (3.3V)
 |P2/2 +3.3V
@@ -91,7 +98,7 @@ Die Verkablung ist verhältnismässig einfach.
 
 |===
 
-Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. Das Solarpanel wird ebenfalls mit `GND` und dem `+PV` verbunden. Wenn man auch den LED Taster möchte, dann wird der Taster zwischen `GND` und `GPIO 0.0` angeschloßen und die LED zwischn `+3.3V` und `GPIO 0.1`.
+Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. Das Solarpanel wird ebenfalls mit `GND` und zusätzlich mit `+PV` verbunden. Damit ladet man den Super Kondensator über den  link:https://www.ti.com/product/BQ25185/part-details/BQ25185DLHR[BQ25185DLHR Solar Laderegeler]. Diesen kann man nicht ansteuern und er ladet den Super Kondensator auf 4.2V auf, was bei dem verwendeten Super Kondensator die maximale Überspannung ist. Wenn man das Solarpanel alternativ über `VBUS` anbindet, dann wird über link:https://www.nordicsemi.com/Products/nPM1300[nPM1300 Energiemanger] geladen, den man auf 4.0V limitieren kann. Nachteil ist, dass ein Spannung höher als 5.5V an `VBUS` als Überspannung bewertet werden und der Regeler in einen "Notbetrieb" geht und so den Strom auf 100mA beschränkt. Auf den ersten Blick ist das kein Problem, da das Solarpanel ohnehin nicht mehr liefert und der Super Kondensator bei 100mA in weniger als 1h geladen ist. Ob sich noch mehr Nachteile zeigen, werden Tests erbringen. Wenn man auch den LED Taster möchte, dann wird der Taster zwischen `GND` und `GPIO 0.0` angeschloßen und die LED zwischn `+3.3V` und `GPIO 0.1`.
 
 == Die Platine
 
@@ -126,6 +133,10 @@ a|link:https://www.digikey.de/de/products/detail/cda-zhifengwei-technology/LIB16
 |Solarpanel, 6V 0.5W
 a|link:https://www.digikey.de/de/products/detail/seeed-technology-co-ltd/313070004/5488049[Solarpanel, digikey.de]
 |6,60 Euro
+
+|Solarpanel (abgesetzt), 6V 0.5W
+a|link:https://www.amazon.de/ZONADAH-Hangable-Ladeger%C3%A4t-Projekte-Ladewerkzeuge/dp/B09CM1RJHY[(abgesetzt), amazon.de]
+|5,99 Euro
 
 |LED Taster, Grün
 a|link:https://www.digikey.de/de/products/detail/olimex-ltd/BUTTON-12MM-GREEN/21662029[BUTTON-12MM-GREEN, digikey.de]
