@@ -6,10 +6,12 @@
 Achim Kraus <achim.kraus@cloudcoap.net>
 v0.1, 2024-10-13
 
-[cols="1*"]
+[cols="2*"]
 |===
-a|.Solarchamp 
-image::1_solarchamp.png[Solarchamp]
+a|.Solarchamp 1
+image::1_solarchamp.png[Solarchamp 1]
+a|.Solarchamp 2 
+image::2_solarchamp_2.png[Solarchamp 2]
 |===
 
 Willkommen auf meiner Bastelanleitung für ein Modem mit Solarpanel zur Energieversorung.
@@ -20,7 +22,7 @@ Das Demogerät bietet nicht viel Funktion, aktuell sendet es nur die Temperatur 
 
 Die Ausführung ist ziemlich einfach, der Akku wird durch einen Super-Kondensator neuer Bauart (z.B. LIB1620Q4R0407, Litium HYBRID, 4V, 400F) ersetzt. Dazu muss man die Ladeschlußspannung des Ladebausteins entsprechend konfigurieren. Beim Nordic NPM1300 geht das mit wenig Aufwand. Das war es auch schon. Ansonsten benötigt man eine Applikation, die mit wenig Energie auskommt, da passt CoAP/DTLS 1.2 CID natürlich optimal.
 
-Für ein echtes Gerät sollte man beachten, dass die Temperatur nicht über 50°C steigt. Dazu muss man dann meiner Erfahrung nach das Solarpanel absetzen und das Gerät selber beschatten.
+Für ein echtes Gerät sollte man beachten, dass die Temperatur nicht über 50°C steigt. Dazu muss man dann meiner Erfahrung nach das Solarpanel absetzen und das Gerät selber beschatten. Eine Varainte mit abgesetztem Solarpanel teste ich daher gerade auch (oben rechts).
 
 Links zu den Open Source Projekten:
 
@@ -30,16 +32,20 @@ link:https://github.com/eclipse-californium/californium/tree/main/demo-apps/cf-s
 
 == Vorab Betrachtung der Energiemengen
 
-image::2_solarchamp-chart.png[Bauteile]
+.Spannungsverlauf
+image::3_solarchamp-chart.png[Spannungsverlauf]
 
+&#8201; +
 Ein Testlauf mit einem Sendeinterval von 5 Minuten lief 8 Tage und 14 h. 
 
 Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.4V, daher halbiert sich die Kapazität auf ca. 80mAh. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen. Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenergie auskommen sollte. Mal sehen, wie gut das zutrifft.  
 
 == Bauteile
 
-image::3_bauteile.png[Bauteile]
+.Bauteile
+image::4_bauteile.png[Bauteile]
 
+&#8201; +
 Das Herzstück ist ein Modem-Modul, dass über einen Solarladechip verfügt, das link:https://conexiotech.com/conexio-stratus-pro-nrf9161/[Conexio Stratus Pro nRF9161]. Dazu kommt ein Super-Kondensator (4V, 400F), ein kleines Solarpanel (6V)und ein Gehäuse. Ich verbaue auch gerne einen LED Taster.
 
 Die Verkablung ist verhältnismässig einfach.
@@ -61,19 +67,12 @@ Die Verkablung ist verhältnismässig einfach.
 |
 |Grün
 
-|VBUS V+
-|P1/3 VUSB
-|
-|+ (Alternativ)
-|
-|Rot
-
 |Bat V+
 |P1/1 VBAT
 |+
 |
 |
-|Violett
+|Rot
 
 |VDD (3.3V)
 |P2/2 +3.3V
@@ -98,14 +97,18 @@ Die Verkablung ist verhältnismässig einfach.
 
 |===
 
-Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. Das Solarpanel wird ebenfalls mit `GND` und zusätzlich mit `+PV` verbunden. Damit ladet man den Super Kondensator über den  link:https://www.ti.com/product/BQ25185/part-details/BQ25185DLHR[BQ25185DLHR Solar Laderegeler]. Diesen kann man nicht ansteuern und er ladet den Super Kondensator auf 4.2V auf, was bei dem verwendeten Super Kondensator die maximale Überspannung ist. Wenn man das Solarpanel alternativ über `VBUS` anbindet, dann wird über link:https://www.nordicsemi.com/Products/nPM1300[nPM1300 Energiemanger] geladen, den man auf 4.0V limitieren kann. Nachteil ist, dass ein Spannung höher als 5.5V an `VBUS` als Überspannung bewertet werden und der Regeler in einen "Notbetrieb" geht und so den Strom auf 100mA beschränkt. Auf den ersten Blick ist das kein Problem, da das Solarpanel ohnehin nicht mehr liefert und der Super Kondensator bei 100mA in weniger als 1h geladen ist. Ob sich noch mehr Nachteile zeigen, werden Tests erbringen. Wenn man auch den LED Taster möchte, dann wird der Taster zwischen `GND` und `GPIO 0.0` angeschloßen und die LED zwischn `+3.3V` und `GPIO 0.1`.
+Der Super Kondensator wird wie eine Batterie an `GND` und `VBAT` angeschloßen. Das Solarpanel wird ebenfalls mit `GND` und zusätzlich mit `+PV` verbunden. Damit ladet man den Super Kondensator über den  link:https://www.ti.com/product/BQ25185/part-details/BQ25185DLHR[BQ25185DLHR Solar Laderegeler] (Stecker mit dem grünem Kabel). Diesen kann man nicht ansteuern und er ladet den Super Kondensator auf 4.2V auf, was bei dem verwendeten Super Kondensator die maximale Überspannung ist. Ich habe da bedenken, dass das für einen dauerhaften Betrieb funktioniert. Wenn man auch den LED Taster möchte, dann wird der Taster zwischen `GND` und `GPIO 0.0` angeschloßen und die LED zwischn `+3.3V` und `GPIO 0.1`.
+
+Der 2. Stecker (mit dem rotem Kabel) für das Solarpanel war für Laden über `VBUS` (P1.3, Stromeingang) und link:https://www.nordicsemi.com/Products/nPM1300[nPM1300 Energiemanger] gedacht. Leider ist diese PIN doch `VUSB` und damit Stromausgang. Wenn man über den `nPM1300` ladet, den kann man die Spanung auf 4.0V limitieren. Nachteil ist, dass ein Spannung höher als 5.5V an `VBUS` als Überspannung bewertet werden und der Regeler in einen "Notbetrieb" geht und so den Strom auf 100mA beschränkt. Auf den ersten Blick ist das kein Problem, da das Solarpanel ohnehin nicht mehr liefert und der Super Kondensator bei 100mA in weniger als 1h geladen ist. Ob sich noch mehr Nachteile zeigen, werden Tests erbringen.
 
 == Die Platine
 
 [cols="2*"]
 |===
-a|image::4_platine_oben.png[Sendbox-Platine von oben] 
-a|image::5_platine_unten.png[Sendbox-Platine von unten]
+a|.Platine von oben
+image::5_platine_oben.png[Sendbox-Platine von oben] 
+a|.Platine von unten
+image::6_platine_unten.png[Sendbox-Platine von unten]
 |===
 
 == Arbeitszeit
