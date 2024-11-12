@@ -6,12 +6,14 @@
 Achim Kraus <achim.kraus@cloudcoap.net>
 v0.1, 2024-10-13
 
-[cols="2*"]
+[cols="3*"]
 |===
 a|.Solarchamp 1
 image::1_solarchamp.png[Solarchamp 1]
 a|.Solarchamp 2 
 image::2_solarchamp_2.png[Solarchamp 2]
+a|.Solarchamp im Einsatz
+image::7_solarchamp_at_work.png[Solarchamp im Einsatz]
 |===
 
 Willkommen auf meiner Bastelanleitung für ein Modem mit Solarpanel zur Energieversorung.
