@@ -40,12 +40,18 @@ image::3_solarchamp-chart.png[Spannungsverlauf]
 &#8201; +
 Ein Testlauf mit einem Sendeinterval von 5 Minuten lief 8 Tage und 14 h. 
 
-Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.4V, daher halbiert sich die Kapazität auf ca. 80mAh. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen. Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenergie auskommen sollte. Mal sehen, wie gut das zutrifft.  
+Gemäß dem Datenblatt des Solarpanels, ist diese in der Lage bis zu 100mA zu liefern. Gehen wir bei wenig Sonne von 25mA aus. Der Super-Kondensator speichert die Energie von ca. 160mAh, wenn man einen Spannungsabfall von 4.0 auf 2.5V annimmt. Für Das Modem nutzen wir nur den Bereich 4.0 bis 3.4V, daher halbiert sich die Kapazität auf ca. 80mAh. Wenn man nun noch etwas Verlust dazu rechnet, dann benötigt das Solarpanel ca. 4h zum Aufladen (bei starker Sonne wird das schneller gehen). Aus Erfahrung mit anderen Geräten, die dieses nRF9160/61/51 Modem nutzen, kann man mit 100mAh ca. 1 Monat lang jede Stunde eine Nachricht austauschen (CoAP/DTLS 1.2 CID). Als erste Überschlagsrechnung folgt dann, dass wenn es 5 h pro Monat Sonne gibt und die Dunkelphase nicht länger als 3 Wochen ist, dass Gerät allein mit der Sonnenenergie auskommen sollte.
+
+.Testlauf Winter 2024/25
+image::4_solarchamp-winter-chart.png[Testlauf Winter 2024/25]
+
+&#8201; +
+Der Winter-Testlauf mit einem Sendeinterval von 1h zeigt, dass selbst bei sehr wenig Sonne das Gerät wunderbar läuft! Man muss nur den passenden Solar-Laderegler für die entsprechende Energie-Menge und Solarmodul nehmen. Wenn man da ein nRF9160/61/51 nimmt, dann benötigt das wie oben geschrieben 100mAh im Monat für 1x Senden in der Stunde (CoAP/DTLS 1.2 CID). Das macht 3.3mAh pro Tag. Das können dann viele kleine, preisgünstige Solarmodule und einfach Solar-Laderegler wie der verwendete link:https://www.ti.com/product/BQ25185/part-details/BQ25185DLHR[BQ25185DLHR Solar Laderegeler].
 
 == Bauteile
 
 .Bauteile
-image::4_bauteile.png[Bauteile]
+image::5_bauteile.png[Bauteile]
 
 &#8201; +
 Das Herzstück ist ein Modem-Modul, dass über einen Solarladechip verfügt, das link:https://conexiotech.com/conexio-stratus-pro-nrf9161/[Conexio Stratus Pro nRF9161]. Dazu kommt ein Super-Kondensator (4V, 400F), ein kleines Solarpanel (6V)und ein Gehäuse. Ich verbaue auch gerne einen LED Taster.
@@ -108,9 +114,9 @@ Der 2. Stecker (mit dem rotem Kabel) für das Solarpanel war für Laden über `V
 [cols="2*"]
 |===
 a|.Platine von oben
-image::5_platine_oben.png[Sendbox-Platine von oben] 
+image::6_platine_oben.png[Sendbox-Platine von oben] 
 a|.Platine von unten
-image::6_platine_unten.png[Sendbox-Platine von unten]
+image::7_platine_unten.png[Sendbox-Platine von unten]
 |===
 
 == Arbeitszeit
